@@ -135,8 +135,8 @@ angular.module("mtvConnection", [])
   var reSubscription = mtvReConnectionOk.stream
     .subscribe(function(x){
       var instrumentsHubProxy = x.hubs.instrumentsHubProxy;
-      instrumentsHubProxy.on("OnInstrumentUpdate", function(price) {
-        instrumentUpdates.onNext(price);
+      instrumentsHubProxy.on("OnInstrumentUpdate", function(instrument) {
+        instrumentUpdates.onNext([instrument]);
       });
 
       instrumentsHubProxy.invoke("GetInstruments")
@@ -154,31 +154,6 @@ angular.module("mtvConnection", [])
   };
 
 })
-
-// .service("mtvReferenceData", function(mtvReConnectionOk) {
-//   var metaDataStream = mtvReConnectionOk.stream
-//     .flatMap(function(x) {
-//       var instrumentsHubProxy = x.hubs.instrumentsHubProxy;
-//       var instrumentUpdates = new Rx.Subject();
-//       instrumentsHubProxy.on("OnInstrumentUpdate", function(currencyPair) {
-//         instrumentUpdates.onNext([currencyPair]);
-//       });
-
-//       instrumentsHubProxy.invoke("GetInstruments")
-//         .done(function(instruments) {
-//           instrumentUpdates.onNext(instruments);
-//         })
-//         .fail(function(err) {
-//           instrumentUpdates.onError(err);
-//         });
-
-//       return instrumentUpdates.publish().refCount();
-//     });
-
-//   return {
-//     stream: metaDataStream
-//   };
-// })
 
 .service("mtvInstruments", function(mtvInstrumentsStream) {
   var pairs = {
@@ -217,48 +192,5 @@ angular.module("mtvConnection", [])
 
 })
 
-// .factory("mtvAllPricesStream", function(mtvReConnectionOk) {
-//   var allPrices = new Rx.Subject();
-//   var reSubscription = mtvReConnectionOk.stream
-//     .subscribe(function(x){
-//       x.hubs.pricingHubProxy.on("OnNewPrice", function(price) {
-//         allPrices.onNext(price);
-//       });
-//     });
-
-//   return {
-//     stream: allPrices.publish().refCount(),
-//     holder: reSubscription
-//   };
-
-// })
-
-// .factory("mtvPriceStream", function(mtvReConnectionOk, mtvAllPricesStream) {
-
-//   return function(symbol) {
-//     var priceStream = mtvAllPricesStream.stream
-//       .filter(function(x) {
-//         return x.s === symbol;
-//       });
-
-//     var reConnection = mtvReConnectionOk.stream
-//       .subscribe(function(x){
-//         x.hubs.pricingHubProxy.invoke("SubscribePriceStream", {
-//           CurrencyPair: symbol
-//         })
-//           .done(function() {
-//             console.log("Subscribed to " + symbol);
-//           })
-//           .fail(function(ex) {
-//             console.log("Subscribed to " + symbol + "fail", ex);
-//           });
-//       });
-
-//     return {
-//       stream: priceStream.publish().refCount(),
-//       holder: reConnection
-//     };
-//   };
-// })
 
 ;
