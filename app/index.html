@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+
+    <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js'></script>
+    <script type='text/javascript' src='//code.jquery.com/jquery-2.1.0.js'></script>
+    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
+    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.2/typeahead.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/jquery.gridster/0.5.0/jquery.gridster.min.css">
+    <script src="3party/gridster/js/gridster.js"></script>
+    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.8/d3.min.js"></script>
+    <script type='text/javascript' src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.16/angular.js"></script>
+
+    <script src="//ajax.aspnetcdn.com/ajax/signalr/jquery.signalr-2.0.3.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/rxjs/2.2.26/rx.all.js"></script>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="modules/candle-chart/css/candle-chart.css">
+    <link rel="stylesheet" href="modules/active-table/css/active-table.css">
+    <link rel="stylesheet" href="modules/typeahead-directive/css/typeahead.css">
+    <link rel="stylesheet" href="modules/tiles/css/tiles.css">
+
+    <script src="modules/candle-chart/js/candle-chart.js"></script>
+    <script src="modules/typeahead-directive/js/typeahead-directive.js"></script>
+    <script src="modules/active-table/js/active-table.js"></script>
+
+    <script src="modules/tabs/js/tabs.js"></script>
+    <script src="modules/tiles/js/tiles.js"></script>
+    <script src="modules/gridster/js/gridster.js"></script>
+
+    <script src="modules/transport/js/connection.js"></script>
+
+    <script src="js/app.js"></script>
+
+  </head>
+
+  <body>
+  <div ng-app="gridApp">
+    <tabs>
+      <pane data-title="Gridster">
+        <div class="gridster" mtv-gridster="mainGrid" >
+          <button ng-click="addWidget('chart', 6, 3)">Add Chart</button>
+          <button ng-click="addWidget('book', 3, 3)">Add Book</button>
+          <button ng-click="addWidget('ups-and-downs', 4, 3)">Add Ups &amp; Downs</button>
+          <button ng-click="addWidget('summary-table', 8, 2)">Add Summary</button>
+          <button ng-click="addWidget('indexes-table', 6, 2)">Add Indexes</button>
+          <button ng-click="addWidget('sparklines-table', 5, 2)">Add Sparklines</button>
+        </div>
+
+      </pane>
+      <pane data-title="Tiles">
+        <div class="gridster" mtv-gridster="tilesGrid" >
+          <button ng-click="addWidget('tile', 3, 2)">Add Tile</button>
+        </div>
+      </pane>
+    </tabs>
+
+    <div mtv-connection-status>Connection status</div>
+
+    <script type="text/ng-template" id="template-mtv-widget.html">
+        <li class="mtv-widget">
+            <span ng-click="removeWidget($event)" class="gs-remove-handle"></span>
+            <div class="mtv-widget-content"
+              <%=name%> data-key="<%=settingsKey%>"></div>
+        </li>
+    </script>
+  </div>
+
+
+  </body>
+
+</html>

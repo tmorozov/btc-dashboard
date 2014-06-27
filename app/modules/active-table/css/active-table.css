@@ -1,0 +1,47 @@
+
+.at {
+    /* border: 1px solid rgb(66,66,66); */ 
+    border-collapse: collapse;
+    font-family: "Arial";
+    font-size: 12px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.at-row:nth-child(even) {
+    background-color: rgb(27,27,27);     
+}
+
+.at-row {
+  border-top: 1px solid rgb(0,0,0); /*prevent from jumping on hover*/
+}
+
+.at-row:hover {
+  background-color: rgb(16,49,75);  
+  /*border: 1px solid rgb(103,184,251);*/
+}
+.at-row:hover .at-remove-row button {
+    visibility: visible;
+    cursor: pointer;
+}
+
+.at-remove-row button {
+    visibility: hidden;
+}
+
+.at-head-cell {
+    height: 1px; /*hack for filling all td with div*/
+}
+.at-head-cell-content {
+    background: linear-gradient(rgb(66,66,66), rgb(46,46,46));
+    border: 1px solid rgb(66,66,66);
+    color: rgb(196,196,196);
+    height: 100%;
+}
+.at-body-cell {
+    color: rgb(196,196,196);
+}
+
+.mtv-number-cell {
+  min-width: 45px;
+}

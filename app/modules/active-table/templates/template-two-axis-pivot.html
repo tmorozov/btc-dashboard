@@ -1,0 +1,37 @@
+<table class="at">
+  <thead>
+    <tr>
+      <td class="at-head-cell" ng-repeat="ax in query.axisNames">
+        <div class="at-head-cell-content">{{ax}}</div>
+      </td>
+      <td class="at-head-cell" ng-repeat="col in query.axises[0]">
+        <div class="at-head-cell-content">{{col.name}}</div>
+      </td>
+    </tr>
+  </thead>
+  <tbody class="at-body" ng-repeat="ax1 in query.axises[1]">
+    <tr class="at-row">
+      <td rowspan="{{query.axises[2].length+1}}">{{ax1}}</td>
+      <td>
+        <button ng-click="show = !show;">{{show? '-' : '+'}}</button>
+      </td>
+
+      <td ng-repeat="col in query.axises[0]"
+        mtv-cell="{{col.type}}"
+        cell-meta="{{col.meta}}"
+        cell-key="{{ax1+'.*'}}"></td>
+    </tr>
+
+    <tr class="at-row" ng-if="show" ng-repeat="ax2 in query.axises[2]">
+      <td class="at-body-cell" 
+        mtv-cell="mtv-string-cell"
+        cell-key="{{ax2}}"></td>
+      <td class="at-body-cell" 
+        ng-repeat="col in query.axises[0] "
+        mtv-cell="{{col.type}}"
+        cell-meta="{{col.meta}}"
+        cell-key="{{ax1+'.'+ax2}}"></td>
+    </tr>
+  </tbody>
+  <tfoot><tr></tr></tfoot>
+</table>

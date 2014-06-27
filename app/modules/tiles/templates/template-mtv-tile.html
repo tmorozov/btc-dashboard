@@ -1,0 +1,44 @@
+<div class="tile">
+  <div class="tile-head">
+    <div class="tile-head__symbol">
+      <span mtv-typeahead 
+        data-value="tile.Symbol"
+        data-suggestions="pairs.arr" 
+        data-placeholder="{{tile.Symbol || 'Enter pair'}}" >
+      </span>
+    </div>
+  </div>
+  <div class="tile-body">
+    <div class="tile-body-price">
+      <div class="tile-body-price__side">Sell</div>
+      <div class="tile-body-price__price">
+        <span class="tile-body-price__price">{{tile.PriceSell.part1}}</span>
+        <span class="tile-body-price__price--main">{{tile.PriceSell.part2}}</span>
+        <span class="tile-body-price__price">{{tile.PriceSell.part3}}</span>
+      </div>
+    </div>
+    <div class="tile-body-spread">
+      <div class="tile-body-spread__up"></div>
+      <div class="tile-body-spread__spread">
+        {{10000*(tile.PriceBuy.price-tile.PriceSell.price) | number : 1}}
+      </div>
+      <div class="tile-body-spread__down"></div>
+    </div>
+    <div class="tile-body-price">
+      <div class="tile-body-price__side">Buy</div>
+      <div class="tile-body-price__price">
+        <span class="tile-body-price__price">{{tile.PriceBuy.part1}}</span>
+        <span class="tile-body-price__price--main">{{tile.PriceBuy.part2}}</span>
+        <span class="tile-body-price__price">{{tile.PriceBuy.part3}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="tile-foot">
+    <div class="tile-foot-order">
+      <span class="tile-foot-order__symbol">
+        {{order.Symbol}}
+      </span>
+      <input ng-model="order.Size" class="tile-foot-order__size" />
+    </div>
+  </div>
+</div>

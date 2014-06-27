@@ -1,0 +1,13 @@
+<div class="connection-status">
+  <span class="connection-status__uri" 
+  ng-class="{
+  'reconnected':'connection-status__uri--ok',
+  'connected':'connection-status__uri--ok',
+  'slow':'connection-status__uri--wait',
+  'closed':'connection-status__uri--bad',
+  'reconnecting':'connection-status__uri--bad',
+  'connecting':'connection-status__uri--bad'
+  }[connection.status]">
+    {{connection.address}}:{{connection.status}}:{{connection.transport}}
+  </span>
+</div>

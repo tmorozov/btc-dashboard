@@ -1,0 +1,77 @@
+.candle-chart-area {
+  border: none;
+  height: 100%;
+}
+.candle-chart-symbol-picker {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #444;
+}
+
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 2px;
+  vertical-align: middle;
+  border-top: 4px solid;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+}
+.price-chart-svg {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+.price-chart-title {
+  fill: #ccc;
+}
+
+.price-chart-items {
+  overflow: hidden;
+  background-color: transparent;
+}
+.price-chart-mouse {
+  fill: #ddd;
+  opacity: 0.1;
+}
+.price-chart-crosshair .price-chart-crosshair-line {
+  stroke: #fff;
+  stroke-opacity: 0.3;
+}
+.price-chart-crosshair .price-chart-crosshair-rect {
+  fill: #343434;
+}
+.price-chart-crosshair .price-chart-crosshair-text {
+  fill: #fff;
+  font-weight: bold;
+}
+.price-chart-crosshair.hidden {
+  display: none;
+}
+.price-chart-bar-up {
+  fill: #00f;
+}
+.price-chart-bar-down {
+  fill: #f00;
+}
+.price-chart-line-down {
+  stroke: #f00;
+}
+.price-chart-line-up {
+  stroke: #00f;
+}
+/* I know - it's bad - TODO: use specific selectors (not line, path) */
+
+.price-chart-axis-x path,
+.price-chart-axis-x line,
+.price-chart-axis-y path,
+.price-chart-axis-y line {
+  fill: none;
+  stroke: #333;
+}
+.price-chart-axis-x text,
+.price-chart-axis-y text {
+  fill: #ccc;
+}
