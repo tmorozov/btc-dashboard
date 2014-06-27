@@ -13,12 +13,14 @@ angular.module("mtvConnection", [])
         address: server,
         hubConnection: null,
         hubs: {
-          pricingHubProxy: null
+          pricingHubProxy: null,
+          instrumentsHubProxy: null
         }
       };
 
       var hubConnection = $.hubConnection(server);
       connectionInfo.hubConnection = hubConnection;
+      connectionInfo.hubs.instrumentsHubProxy = hubConnection.createHubProxy("instrumentsHub");
       //      connectionInfo.hubs.pricingHubProxy = hubConnection.createHubProxy("PricingHub");
 
       var connection = Rx.Observable.create(function(o) {
@@ -128,38 +130,63 @@ angular.module("mtvConnection", [])
   };
 })
 
-.service("mtvReferenceData", function(mtvReConnectionOk) {
-  var metaDataStream = mtvReConnectionOk.stream
-    .flatMap(function(x) {
-      var referenceDataHubProxy = x.hubConnection.createHubProxy("instrumentsHub");
-      var instrumentUpdates = new Rx.Subject();
-      referenceDataHubProxy.on("OnInstrumentUpdate", function(currencyPair) {
-        instrumentUpdates.onNext([currencyPair]);
+.factory("mtvInstrumentsStream", function(mtvReConnectionOk) {
+  var instrumentUpdates = new Rx.Subject();
+  var reSubscription = mtvReConnectionOk.stream
+    .subscribe(function(x){
+      var instrumentsHubProxy = x.hubs.instrumentsHubProxy;
+      instrumentsHubProxy.on("OnInstrumentUpdate", function(price) {
+        instrumentUpdates.onNext(price);
       });
 
-      referenceDataHubProxy.invoke("GetInstruments")
+      instrumentsHubProxy.invoke("GetInstruments")
         .done(function(instruments) {
           instrumentUpdates.onNext(instruments);
         })
         .fail(function(err) {
           instrumentUpdates.onError(err);
         });
-
-      return instrumentUpdates.publish().refCount();
     });
 
   return {
-    stream: metaDataStream
+    stream: instrumentUpdates.publish().refCount(),
+    holder: reSubscription
   };
+
 })
 
-.service("mtvInstruments", function(mtvReferenceData) {
+// .service("mtvReferenceData", function(mtvReConnectionOk) {
+//   var metaDataStream = mtvReConnectionOk.stream
+//     .flatMap(function(x) {
+//       var instrumentsHubProxy = x.hubs.instrumentsHubProxy;
+//       var instrumentUpdates = new Rx.Subject();
+//       instrumentsHubProxy.on("OnInstrumentUpdate", function(currencyPair) {
+//         instrumentUpdates.onNext([currencyPair]);
+//       });
+
+//       instrumentsHubProxy.invoke("GetInstruments")
+//         .done(function(instruments) {
+//           instrumentUpdates.onNext(instruments);
+//         })
+//         .fail(function(err) {
+//           instrumentUpdates.onError(err);
+//         });
+
+//       return instrumentUpdates.publish().refCount();
+//     });
+
+//   return {
+//     stream: metaDataStream
+//   };
+// })
+
+.service("mtvInstruments", function(mtvInstrumentsStream) {
   var pairs = {
     keys: {},
     arr: []
   };
   var pairsKey = {};
-  var pairsUpdatedStreamHandle = mtvReferenceData.stream
+  var pairsUpdatedStreamHandle = mtvInstrumentsStream.stream
     .map(function(x) {
       x.forEach(function(update) {
         if (update.UpdateType === 0) {
@@ -171,7 +198,7 @@ angular.module("mtvConnection", [])
       });
       return x.length;
     })
-    .throttle(5000)
+    .throttle(2000)
     .subscribe(function(x) {
       pairs.arr = _.map(pairs.keys,  function(v, k) {
         return k;
