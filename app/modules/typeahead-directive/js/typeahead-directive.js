@@ -22,7 +22,6 @@ angular.module("typeahead.module", [])
               });
             }
           });
-
           cb(matches);
         };
 
