@@ -1,5 +1,5 @@
 angular.module("mtvTiles", ["mtvConnection"])
-  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvSymbols) {
+  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvSymbols, mtvBboSubscription) {
     return {
       templateUrl: "modules/tiles/templates/template-mtv-tile.html",
       scope: {},
@@ -34,6 +34,16 @@ angular.module("mtvTiles", ["mtvConnection"])
           scope.tile.Symbol = widgetData.settings.symbol;
           scope.order = widgetData.settings.order;
         }
+
+        scope.$watch("tile.Symbol", function(newVal, oldVal) {
+          if (newVal) {
+            var symbolId = mtvSymbols.symbols.keys[newVal];
+            mtvBboSubscription.getBboStream(symbolId).stream
+            .subscribe(function(bbo) {
+              console.log("bbo", bbo);
+            });
+          }
+        });
 
         scope.serialize = function () {
           return {

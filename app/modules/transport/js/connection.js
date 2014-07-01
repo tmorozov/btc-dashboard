@@ -13,9 +13,9 @@ angular.module("mtvConnection", [])
         address: server,
         hubConnection: null,
         hubs: {
-          pricingHubProxy: null,
           instrumentsHubProxy: null,
-          symbolsHubProxy: null
+          symbolsHubProxy: null,
+          bboHubProxy: null
         }
       };
 
@@ -23,8 +23,7 @@ angular.module("mtvConnection", [])
       connectionInfo.hubConnection = hubConnection;
       connectionInfo.hubs.instrumentsHubProxy = hubConnection.createHubProxy("instrumentsHub");
       connectionInfo.hubs.symbolsHubProxy = hubConnection.createHubProxy("symbolsHub");
-
-      //      connectionInfo.hubs.pricingHubProxy = hubConnection.createHubProxy("PricingHub");
+      connectionInfo.hubs.bboHubProxy = hubConnection.createHubProxy("bboHub");
 
       var connection = Rx.Observable.create(function(o) {
         function onStatusChange(status) {
