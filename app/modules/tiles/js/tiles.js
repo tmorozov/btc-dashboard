@@ -1,5 +1,5 @@
 angular.module("mtvTiles", ["mtvConnection"])
-  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvInstruments, mtvSafeDigest) {
+  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvSymbols, mtvSafeDigest) {
     return {
       templateUrl: "modules/tiles/templates/template-mtv-tile.html",
       scope: {},
@@ -15,28 +15,7 @@ angular.module("mtvTiles", ["mtvConnection"])
         }
 
         // for typeahead
-        scope.pairs = mtvInstruments.pairs;
-        // mtvReferenceData.stream
-        //   .map(function(x) {
-        //     x.forEach(function(update) {
-        //       if (update.UpdateType === 0) {
-        //         scope.pairs.push(update.Instrument.Instrument);
-        //       }
-        //       // if (update.UpdateType === 1) {
-        //       //   delete $scope.symbols[update.CurrencyPair.Symbol];
-        //       // }
-        //     });
-        //     return x.length;
-        //   })
-        //   .throttle(500)
-        //   .subscribe(function(x) {
-        //     console.log("pairs", scope.pairs);
-        //     mtvSafeDigest(scope);
-        //   });
-
-        // mtvPairsSrv.get().then(function (data) {
-        //   scope.pairs = data;
-        // });
+        scope.symbols = mtvSymbols.symbols;
 
         scope.tile = {
           Symbol: "",
