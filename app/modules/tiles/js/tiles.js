@@ -1,5 +1,5 @@
 angular.module("mtvTiles", ["mtvConnection"])
-  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvSymbols, mtvSafeDigest) {
+  .directive("mtvTile", function (mtvPairsSrv, mtvWidgetsStorage, mtvSymbols) {
     return {
       templateUrl: "modules/tiles/templates/template-mtv-tile.html",
       scope: {},
