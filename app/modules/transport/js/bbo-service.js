@@ -27,13 +27,13 @@ angular.module("mtvConnection")
 
     return {
       stream: bboUpdates.publish().refCount(),
-      holder: holder
+      //holder: holder
     };
   }
 
   return {
     getBboStream: getBboStream,
-    holder: reSubscription
+//    holder: reSubscription
   };
 
 })

@@ -1,12 +1,9 @@
 "use strict";
 
 angular.module("mtvConnection")
-  .run(function(mtvReConnection) {
-    mtvReConnection.connect(["http://localhost:8088/"])
-  })
 
 .factory("mtvSymbolsStream", function(mtvReConnectionOk) {
-  var symbolUpdates = new Rx.Subject();
+  var symbolUpdates = new Rx.ReplaySubject(1);
   var reSubscription = mtvReConnectionOk.stream
     .subscribe(function(x){
       var symbolsHubProxy = x.hubs.symbolsHubProxy;
@@ -25,7 +22,7 @@ angular.module("mtvConnection")
 
   return {
     stream: symbolUpdates.publish().refCount(),
-    holder: reSubscription
+    //holder: reSubscription
   };
 
 })
@@ -37,17 +34,29 @@ angular.module("mtvConnection")
   };
   var symbolUpdatedStreamHandle = mtvSymbolsStream.stream
     .map(function(x) {
+      var updated = 0;
       x.forEach(function(update) {
         if (update.UpdateType === 0) {
-          symbols.keys[update.Symbol.SymbolName] = update.Symbol.Id;
+          if(typeof symbols.keys[update.Symbol.SymbolName] === 'undefined') {
+            symbols.keys[update.Symbol.SymbolName] = update.Symbol.Id;
+            updated += 1;
+          } else {
+            if (symbols.keys[update.Symbol.SymbolName] !== update.Symbol.Id ) {
+              console.log("collision with id", symbols.keys[update.Symbol.SymbolName], update);
+            }
+          }
         }
         if (update.UpdateType === 1) {
           delete symbols.keys[update.Symbol.SymbolName];
+          updated += 1;
         }
       });
-      return x.length;
+      return updated;
     })
-    .throttle(2000)
+    .filter(function(x) {
+      return x > 0;
+    })
+    //.throttle(2000)
     .subscribe(function(x) {
       symbols.arr = _.map(symbols.keys,  function(v, k) {
         return k;
@@ -57,7 +66,7 @@ angular.module("mtvConnection")
 
   return {
     symbols: symbols,
-    holder: symbolUpdatedStreamHandle
+    //holder: symbolUpdatedStreamHandle
   };
 
 })
