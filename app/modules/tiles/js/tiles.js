@@ -35,10 +35,15 @@ angular.module("mtvTiles", ["mtvConnection"])
           scope.order = widgetData.settings.order;
         }
 
+        var bboSubscription;
         scope.$watch("tile.Symbol", function(newVal, oldVal) {
           if (newVal) {
+            if (bboSubscription) {
+              console.log("dispose", oldVal);
+              bboSubscription.dispose();
+            }
             var symbolId = mtvSymbols.symbols.keys[newVal];
-            mtvBboSubscription.getBboStream(symbolId).stream
+            bboSubscription = mtvBboSubscription.getBboStream(symbolId).stream
             .subscribe(function(bbo) {
               console.log("bbo", bbo);
             });
