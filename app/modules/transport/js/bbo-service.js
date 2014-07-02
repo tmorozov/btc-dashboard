@@ -10,30 +10,41 @@ angular.module("mtvConnection")
     });
 
   function getBboStream(symbolId) {
-    var bboUpdates = new Rx.Subject();
-    var holder = bboHubProxySubject
-      .subscribe(function(x) {
-        Rx.Observable.interval(1000)
-          .subscribe(function () {
-            x.invoke("GetBbo", symbolId)
-              .done(function(bbo) {
-                bboUpdates.onNext(bbo);
-              })
-              .fail(function(err) {
-                bboUpdates.onError(err);
-              });
-          });
-      });
+
+    var bboUpdates = Rx.Observable.create(function (observer) {
+      var intervalSubscription;
+      var holder = bboHubProxySubject
+        .subscribe(function(x) {
+          if(intervalSubscription) {
+            intervalSubscription.dispose();
+          }
+
+          intervalSubscription = Rx.Observable.interval(1000)
+            .subscribe(function () {
+              x.invoke("GetBbo", symbolId)
+                .done(function(bbo) {
+                  observer.onNext(bbo);
+                })
+                .fail(function(err) {
+                  observer.onError(err);
+                });
+            });
+        });
+
+        return function () {
+          console.log('disposed id', symbolId);
+          intervalSubscription.dispose();
+          holder.dispose();
+        };
+    });
 
     return {
-      stream: bboUpdates.publish().refCount(),
-      //holder: holder
+      stream: bboUpdates.publish().refCount()
     };
   }
 
   return {
-    getBboStream: getBboStream,
-//    holder: reSubscription
+    getBboStream: getBboStream
   };
 
 })
