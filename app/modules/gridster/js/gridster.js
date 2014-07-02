@@ -174,7 +174,12 @@ angular.module("mtvGridster", [])
         };
 
         scope.removeWidget = function(event) {
+
           var $widget = $(event.target).parent();
+          var widgetScope = getWidgetScope($widget);
+          if(widgetScope) {
+            widgetScope.$destroy();
+          }
           gridsterEngine.remove_widget($widget);
         };
 

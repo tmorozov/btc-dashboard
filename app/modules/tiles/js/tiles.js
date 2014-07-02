@@ -36,18 +36,29 @@ angular.module("mtvTiles", ["mtvConnection"])
         }
 
         var bboSubscription;
+        function removeOldSubscription() {
+          if (bboSubscription) {
+            console.log("dispose previous subscription");
+            bboSubscription.dispose();
+          }
+        }
         scope.$watch("tile.Symbol", function(newVal, oldVal) {
           if (newVal) {
-            if (bboSubscription) {
-              console.log("dispose", oldVal);
-              bboSubscription.dispose();
-            }
+            removeOldSubscription();
+
             var symbolId = mtvSymbols.symbols.keys[newVal];
             bboSubscription = mtvBboSubscription.getBboStream(symbolId).stream
             .subscribe(function(bbo) {
               console.log("bbo", bbo);
+              scope.tile.PriceSell = splitPrice(bbo.Bid);
+              scope.tile.PriceBuy = splitPrice(bbo.Ask);
             });
           }
+        });
+
+        scope.$on('$destroy', function() {
+          console.log("destroy tile");
+          removeOldSubscription();
         });
 
         scope.serialize = function () {
