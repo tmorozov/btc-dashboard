@@ -2,10 +2,22 @@
 
 angular.module("mtvConnection")
 
-.factory("mtvSymbolsStream", function(mtvReConnectionOk) {
+.service("mtvSymbols", function(mtvReConnectionOk) {
+  var symbols = {};
+
+  function clearSymbols () {
+    symbols.keys = {};
+    symbols.arr = [];
+  }
+
+  clearSymbols();
+
   var symbolUpdates = new Rx.ReplaySubject(1);
+
   var reSubscription = mtvReConnectionOk.stream
     .subscribe(function(x){
+      clearSymbols();
+
       var symbolsHubProxy = x.hubs.symbolsHubProxy;
       symbolsHubProxy.on("OnSymbolUpdate", function(symbol) {
         symbolUpdates.onNext([symbol]);
@@ -20,19 +32,7 @@ angular.module("mtvConnection")
         });
     });
 
-  return {
-    stream: symbolUpdates.publish().refCount(),
-    //holder: reSubscription
-  };
-
-})
-
-.service("mtvSymbols", function(mtvSymbolsStream) {
-  var symbols = {
-    keys: {},
-    arr: []
-  };
-  var symbolUpdatedStreamHandle = mtvSymbolsStream.stream
+  var symbolUpdatedStreamHandle = symbolUpdates
     .map(function(x) {
       var updated = 0;
       x.forEach(function(update) {
@@ -66,7 +66,6 @@ angular.module("mtvConnection")
 
   return {
     symbols: symbols,
-    //holder: symbolUpdatedStreamHandle
   };
 
 })
