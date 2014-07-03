@@ -26,7 +26,9 @@ angular.module("mtvConnection")
                   observer.onNext(bbo);
                 })
                 .fail(function(err) {
-                  observer.onError(err);
+                  //observer.onError(err);
+                  console.log("bbo", err);
+                  observer.onCompleted();
                 });
             });
         });
@@ -38,8 +40,12 @@ angular.module("mtvConnection")
         };
     });
 
+    var emptyWithDelay = Rx.Observable.empty().delay(5000);
+    var bboReUpdates = Rx.Observable.concat(bboUpdates, emptyWithDelay)
+      .repeat();
+
     return {
-      stream: bboUpdates.publish().refCount()
+      stream: bboReUpdates.publish().refCount()
     };
   }
 
