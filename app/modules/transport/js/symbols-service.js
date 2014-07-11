@@ -13,18 +13,19 @@ angular.module("mtvConnection")
   function applyUpdates(arr) {
     var updated = 0;
     arr.forEach(function(update) {
+      var asKey = update.Symbol.DisplayName;
       if (update.UpdateType === 0) {
-        if(typeof symbols.keys[update.Symbol.SymbolName] === 'undefined') {
-          symbols.keys[update.Symbol.SymbolName] = update.Symbol.Id;
+        if(typeof symbols.keys[asKey] === 'undefined') {
+          symbols.keys[asKey] = update.Symbol;
           updated += 1;
         } else {
-          if (symbols.keys[update.Symbol.SymbolName] !== update.Symbol.Id ) {
-            console.log("collision with id", symbols.keys[update.Symbol.SymbolName], update);
+          if (symbols.keys[asKey].Key !== update.Symbol.Key ) {
+            console.log("collision with Key", symbols.keys[asKey], update);
           }
         }
       }
       if (update.UpdateType === 1) {
-        delete symbols.keys[update.Symbol.SymbolName];
+        delete symbols.keys[asKey];
         updated += 1;
       }
     });
@@ -63,7 +64,10 @@ angular.module("mtvConnection")
   })
   //.throttle(2000)
   .subscribe(function(x) {
-    symbols.arr = _.keys(symbols.keys);
+    symbols.arr = _.map(symbols.keys, function(v){
+      console.log(v);
+      return v.DisplayName;
+    });
     console.log("symbols", symbols);
   });
 

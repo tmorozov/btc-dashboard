@@ -9,7 +9,7 @@ angular.module("mtvConnection")
       bboHubProxySubject.onNext(x.hubs.bboHubProxy);
     });
 
-  function getBboStream(symbolId) {
+  function getBboStream(symbolKey) {
 
     var bboUpdates = Rx.Observable.create(function (observer) {
       var intervalSubscription;
@@ -21,7 +21,7 @@ angular.module("mtvConnection")
 
           intervalSubscription = Rx.Observable.interval(1000)
             .subscribe(function () {
-              x.invoke("GetBbo", symbolId)
+              x.invoke("GetBbo", symbolKey)
                 .done(function(bbo) {
                   observer.onNext(bbo);
                 })
@@ -34,7 +34,7 @@ angular.module("mtvConnection")
         });
 
         return function () {
-          console.log('disposed id', symbolId);
+          console.log('disposed id', symbolKey);
           intervalSubscription.dispose();
           holder.dispose();
         };

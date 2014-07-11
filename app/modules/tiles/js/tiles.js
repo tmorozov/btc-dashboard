@@ -46,8 +46,8 @@ angular.module("mtvTiles", ["mtvConnection"])
           if (newVal) {
             removeOldSubscription();
 
-            var symbolId = mtvSymbols.symbols.keys[newVal];
-            bboSubscription = mtvBboSubscription.getBboStream(symbolId).stream
+            var symbolInfo= mtvSymbols.symbols.keys[newVal];
+            bboSubscription = mtvBboSubscription.getBboStream(symbolInfo.Key).stream
             .subscribe(function(bbo) {
               console.log("bbo", bbo);
               scope.tile.PriceSell = splitPrice(bbo.Bid);
