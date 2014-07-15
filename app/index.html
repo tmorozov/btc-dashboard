@@ -26,6 +26,8 @@
     <script src="modules/typeahead-directive/js/typeahead-directive.js"></script>
     <script src="modules/active-table/js/active-table.js"></script>
 
+    <script src="modules/trade-history/js/trade-history.js"></script>
+
     <script src="modules/tabs-directive/js/tabs.js"></script>
     <script src="modules/tiles/js/tiles.js"></script>
     <script src="modules/gridster/js/gridster.js"></script>
@@ -65,6 +67,7 @@
       <pane data-title="Btc-e">
         <div class="gridster" mtv-gridster="btceGrid" >
           <button ng-click="addWidget('simple-ticker-table', 5, 2)">Add Ticker</button>
+          <button ng-click="addWidget('trade-history-table', 5, 2)">Add Trade History</button>
         </div>
       </pane>
 

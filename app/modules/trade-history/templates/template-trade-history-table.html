@@ -1,0 +1,33 @@
+<div>
+  <div>
+    <span>{{tableName}}</span>
+    
+    <span mtv-typeahead 
+      data-value="pair.value"
+      data-suggestions="pairs" 
+      data-placeholder="Enter pair" >
+    </span>
+   
+  </div>  
+
+  <table class="at">
+  <thead>
+      <tr>
+        <td class="at-head-cell" ng-repeat="col in meta.columns">
+          <div class="at-head-cell-content">{{col.name}}</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody class="at-body">
+      <tr class="at-row" ng-repeat="trade in dataSource.getTrades(pair.value)">
+        <td ng-repeat="col in meta.columns">
+          <div>{{trade[col.key]}}</div>
+        </td>
+      </tr>
+
+    </tbody>
+    <tfoot><tr></tr></tfoot>
+  </table>
+
+
+</div>
