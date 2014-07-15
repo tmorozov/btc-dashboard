@@ -14,6 +14,31 @@ angular.module('mtvActiveTable', [])
   })
   .service("mtvActiveTableMeta", function() {
     var templates = {
+      "tickers":[{
+          name: "Bid",
+          type: "mtv-number-cell",
+          meta: "bp"
+        }, {
+          name: "Ask",
+          type: "mtv-number-cell",
+          meta: "ap"
+        }, {
+          name: "High",
+          type: "mtv-number-cell",
+          meta: "hi"
+        }, {
+          name: "Low",
+          type: "mtv-number-cell",
+          meta: "lo"
+        }, {
+          name: "Volume",
+          type: "mtv-number-cell",
+          meta: "vo"
+        }, {
+          name: "Last",
+          type: "mtv-number-cell",
+          meta: "lastPrice"
+        }],
       "sparklines": [{
         name: "Last Price",
         type: "mtv-sparkline-cell",
@@ -59,10 +84,6 @@ angular.module('mtvActiveTable', [])
           name: "Change",
           type: "mtv-number-cell",
           meta: "ch"
-        }, {
-          name: "Open",
-          type: "mtv-number-cell",
-          meta: "op"
         }],
       "indexes": [{
         name: "m1",
@@ -224,6 +245,40 @@ angular.module('mtvActiveTable', [])
       }
     };
   })
+  .directive("mtvSimpleTickerTable", function(mtvActiveTableMeta) {
+    return {
+      templateUrl: "modules/active-table/templates/template-simple-table.html",
+      controller: "mtvActiveTableCtrl",
+      scope: {},
+      replace: true,
+      link: function(scope, element, attr) {
+        scope.tableName = "Tickers Table";
+        scope.query = {
+          axisNames: ["Pair"],
+          axises: [
+            mtvActiveTableMeta.getCollumns("tickers"), // axis 0
+            ["BTC/USD", "LTC/USD"], // axis 1
+            [] //axis 2
+          ]
+        };
+
+        scope.serialize = function() {
+          return {
+            type: "simple-ticker-table",
+          };
+        };
+
+      }
+    };
+  })
+  .directive("mtvOneAxisPivot", function() {
+    return {
+      templateUrl: "modules/active-table/templates/template-one-axis-pivot.html",
+      scope: {
+        query: '='
+      }
+    };
+  })  
   .directive("mtvTwoAxisPivot", function() {
     return {
       templateUrl: "modules/active-table/templates/template-two-axis-pivot.html",

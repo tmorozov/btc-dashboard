@@ -55,11 +55,19 @@
         </div>
 
       </pane>
+
       <pane data-title="Tiles">
         <div class="gridster" mtv-gridster="tilesGrid" >
           <button ng-click="addWidget('tile', 3, 2)">Add Tile</button>
         </div>
       </pane>
+
+      <pane data-title="Btc-e">
+        <div class="gridster" mtv-gridster="btceGrid" >
+          <button ng-click="addWidget('simple-ticker-table', 5, 2)">Add Ticker</button>
+        </div>
+      </pane>
+
     </tabs>
 
     <div mtv-connection-status>Connection status</div>
