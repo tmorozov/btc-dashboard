@@ -21,9 +21,7 @@
     <tbody class="at-body">
       <tr class="at-row" ng-repeat="row in dataSource.getTrades(pair.value)">
         <td ng-repeat="col in meta.columns"
-          mtv-cell="{{col.type}}"
-          cell-meta="{{col.meta}}"
-          cell-key="{{col.key}}"></td>
+          mtv-row-cell="{{col.type}}"></td>
       </tr>
 
     </tbody>

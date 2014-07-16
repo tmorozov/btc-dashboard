@@ -2,6 +2,15 @@
 'use strict';
 
 angular.module('mtvActiveTable')
+  .directive("mtvRowCell", function($compile) {
+    return {
+      link: function(scope, element, attr) {
+        $compile('<div ' + attr.mtvRowCell + '></div>')(scope, function(cloned, scope) {
+          element.append(cloned);
+        });
+      }
+    };
+  })
   .directive("mtvRowCellTimestamp", function () {
     return {
       template: '<div class="mtv-number-cell">{{row[col.key] | date : "MMM d HH:mm:ss"}}</div>',
