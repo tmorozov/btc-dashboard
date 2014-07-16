@@ -3,12 +3,14 @@
 
 angular.module('mtvBtcE.data', [])
   .service("mtvBtceReference", function ($http) {
-    var pairs = ["btc_usd", "ltc_usd"];
+    var info = {};
+    var pairs = [];
 
     function loadInfo () {
       $http.get("/btce_api3/info")
         .success(function(data) {
-          pairs = _.keys(data.pairs);
+          info = data;          
+          pairs = _.keys(info.pairs);
         });
     }
 
@@ -23,11 +25,14 @@ angular.module('mtvBtcE.data', [])
   .service("mtvBtceTrades", function($http, $timeout) {
     var cache = {};
 
-    function connectTrades(pair) {      
+    function connectTrades(pair) {    
       function getTrades() {
         $http.get("/btce_api2/"+pair+"/trades")
           .success(function(data) {
-            cache[pair] = data;
+            // ignore same data
+            if(data.length && !angular.equals(cache[pair][0], data[0])) {
+              cache[pair] = data;
+            }
             $timeout(getTrades, 1000);
           });
       }
