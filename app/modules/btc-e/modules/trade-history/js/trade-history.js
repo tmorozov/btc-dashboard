@@ -2,12 +2,13 @@
 'use strict';
 
 angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data'])
-  .directive("mtvTradeHistoryTable", function(myvBtcePairs, mtvBtceTrades) {
+  .directive("mtvTradeHistoryTable", function(mtvBtceReference, mtvBtceTrades) {
     return {
       scope: {},
       templateUrl: "modules/btc-e/modules/trade-history/templates/template-trade-history-table.html",
       link: function(scope, element, attr) {
-        scope.pairs = myvBtcePairs;
+        scope.Reference = mtvBtceReference;
+        //scope.pairs = mtvBtcePairs;
         scope.pair;
         scope.meta = {
           columns: [{
