@@ -6,7 +6,8 @@ var app = angular.module("gridApp", [
   //"mtvTiles",
   //"mtvConnection",
   "mtvGridster",
-  "mtvTradeHistory"
+  "mtvBtcE"
+  //"mtvTradeHistory"
   ])
   .directive("mtvBook", function() {
     return {

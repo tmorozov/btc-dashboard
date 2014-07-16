@@ -1,42 +1,11 @@
 /*globals: angular, _*/
 'use strict';
 
-angular.module('mtvTradeHistory', [])
-  .service("myvBtcePairs", function () {
-    return ["btc_usd", "ltc_usd"];
-  })
-  .service("mtvBtceTrades", function($http, $timeout) {
-    var cache = {};
-
-    function connectTrades(pair) {      
-      function getTrades() {
-        $http.get("/btce_api/"+pair+"/trades")
-          .success(function(data) {
-            cache[pair] = data;
-            $timeout(getTrades, 1000);
-          });
-      }
-
-      getTrades();
-    }
-
-    return {
-      getTrades: function(pair) {
-        if(!pair) {
-          return [];
-        }
-        if(!cache[pair]) {
-          cache[pair] = [];
-          connectTrades(pair);
-        }
-        return cache[pair];
-      }
-    }
-  })
+angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data'])
   .directive("mtvTradeHistoryTable", function(myvBtcePairs, mtvBtceTrades) {
     return {
       scope: {},
-      templateUrl: "modules/trade-history/templates/template-trade-history-table.html",
+      templateUrl: "modules/btc-e/modules/trade-history/templates/template-trade-history-table.html",
       link: function(scope, element, attr) {
         scope.pairs = myvBtcePairs;
         scope.pair;
