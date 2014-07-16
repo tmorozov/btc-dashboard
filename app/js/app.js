@@ -3,8 +3,8 @@ var app = angular.module("gridApp", [
   "mtvActiveTable",
   "typeahead.module",
   "tabs.module",
-  "mtvTiles",
-  "mtvConnection",
+  //"mtvTiles",
+  //"mtvConnection",
   "mtvGridster",
   "mtvTradeHistory"
   ])

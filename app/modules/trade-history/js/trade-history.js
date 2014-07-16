@@ -2,12 +2,15 @@
 'use strict';
 
 angular.module('mtvTradeHistory', [])
+  .service("myvBtcePairs", function () {
+    return ["btc_usd", "ltc_usd"];
+  })
   .service("mtvBtceTrades", function($http, $timeout) {
     var cache = {};
 
     function connectTrades(pair) {      
       function getTrades() {
-        $http.get("/btce/api/2/"+pair+"/trades")
+        $http.get("/btce_api/"+pair+"/trades")
           .success(function(data) {
             cache[pair] = data;
             $timeout(getTrades, 1000);
@@ -30,12 +33,12 @@ angular.module('mtvTradeHistory', [])
       }
     }
   })
-  .directive("mtvTradeHistoryTable", function(mtvBtceTrades) {
+  .directive("mtvTradeHistoryTable", function(myvBtcePairs, mtvBtceTrades) {
     return {
       scope: {},
       templateUrl: "modules/trade-history/templates/template-trade-history-table.html",
       link: function(scope, element, attr) {
-        scope.pairs = ["btc_usd", "ltc_usd"];
+        scope.pairs = myvBtcePairs;
         scope.pair;
         scope.meta = {
           columns: [{
