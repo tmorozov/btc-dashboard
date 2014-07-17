@@ -9,14 +9,12 @@
       </td>
     </tr>
   </thead>
-  <tbody class="at-body" ng-repeat="ax1 in query.axises[1]">
+  <tbody class="at-body" ng-repeat="rowKey in query.axises[1]">
     <tr class="at-row">
-      <td>{{ax1}}</td>
+      <td>{{rowKey}}</td>
 
       <td ng-repeat="col in query.axises[0]"
-        mtv-cell="{{col.type}}"
-        cell-meta="{{col.meta}}"
-        cell-key="{{ax1}}"></td>
+        mtv-row-cell="{{col.type}}"></td>
     </tr>
 
   </tbody>

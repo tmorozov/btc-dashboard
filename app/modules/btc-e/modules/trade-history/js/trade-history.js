@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
-  .directive("mtvTradeHistoryTable", function(mtvBtceReference, mtvBtceTrades) {
+  .directive("mtvTradeHistoryBtce", function(mtvBtceReference, mtvBtceTrades) {
     return {
       scope: {},
       templateUrl: "modules/btc-e/modules/trade-history/templates/template-trade-history-table.html",
@@ -30,15 +30,10 @@ angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
         };
 
         scope.dataSource = mtvBtceTrades;
-        scope.$watch("pair.value", function(newVal){
-          if(newVal) {
-            mtvBtceTrades.getTrades(newVal);
-          }
-        });
 
         scope.serialize = function () {
           return {
-            type: "trade-history-table",
+            type: "trade-history-btce",
             settings: {
               symbol: scope.pair
             }

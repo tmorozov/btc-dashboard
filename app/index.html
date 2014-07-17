@@ -29,6 +29,7 @@
 
     <script src="modules/btc-e/js/btc-e_data.js"></script>
     <script src="modules/btc-e/modules/trade-history/js/trade-history.js"></script>
+    <script src="modules/btc-e/modules/ticker/js/ticker.js"></script>
     <script src="modules/btc-e/js/btc-e.js"></script>
 
     <script src="modules/tabs-directive/js/tabs.js"></script>
@@ -69,8 +70,8 @@
 
       <pane data-title="Btc-e">
         <div class="gridster" mtv-gridster="btceGrid" >
-          <button ng-click="addWidget('simple-ticker-table', 5, 2)">Add Ticker</button>
-          <button ng-click="addWidget('trade-history-table', 5, 2)">Add Trade History</button>
+          <button ng-click="addWidget('ticker-btce', 6, 2)">Add Ticker</button>
+          <button ng-click="addWidget('trade-history-btce', 5, 2)">Add Trade History</button>
         </div>
       </pane>
 

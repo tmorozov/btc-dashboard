@@ -142,12 +142,7 @@ angular.module('mtvActiveTable', [])
       }
     };
   })
-  .controller("mtvActiveTableCtrl", function($scope, mtvPairsSrv) {
-    $scope.pairs = [];
-    mtvPairsSrv.get().then(function(data) {
-      $scope.pairs = data;
-    });
-
+  .controller("mtvActiveTableAddAxisCtrl", function($scope) {
     function addAxisOne(value) {
       if(value) {
         var items = $scope.query.axises[1];
@@ -163,10 +158,16 @@ angular.module('mtvActiveTable', [])
         addAxisOne(newVal);
       }
     });
-
-    $scope.addAxisOne = function(value) {
-      addAxisOne(value);
-    };
+  })
+  .controller("mtvActiveTableLoadPairsCtrl", function($scope, mtvPairsSrv) {
+    $scope.pairs = [];
+    mtvPairsSrv.get().then(function(data) {
+      $scope.pairs = data;
+    });
+  })
+  .controller("mtvActiveTableCtrl", function($scope, $controller) {
+    $controller("mtvActiveTableLoadPairsCtrl", {$scope: $scope});
+    $controller("mtvActiveTableAddAxisCtrl", {$scope: $scope});
   })
   .directive("mtvSummaryTable", function(mtvActiveTableMeta) {
     return {
@@ -245,37 +246,12 @@ angular.module('mtvActiveTable', [])
       }
     };
   })
-  .directive("mtvSimpleTickerTable", function(mtvActiveTableMeta) {
-    return {
-      templateUrl: "modules/active-table/templates/template-simple-table.html",
-      controller: "mtvActiveTableCtrl",
-      scope: {},
-      replace: true,
-      link: function(scope, element, attr) {
-        scope.tableName = "Tickers Table";
-        scope.query = {
-          axisNames: ["Pair"],
-          axises: [
-            mtvActiveTableMeta.getCollumns("tickers"), // axis 0
-            ["BTC/USD", "LTC/USD"], // axis 1
-            [] //axis 2
-          ]
-        };
-
-        scope.serialize = function() {
-          return {
-            type: "simple-ticker-table",
-          };
-        };
-
-      }
-    };
-  })
   .directive("mtvOneAxisPivot", function() {
     return {
       templateUrl: "modules/active-table/templates/template-one-axis-pivot.html",
       scope: {
-        query: '='
+        query: '=',
+        data: '='
       }
     };
   })  

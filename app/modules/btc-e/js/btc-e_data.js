@@ -22,6 +22,37 @@ angular.module('mtvBtcE.data', [])
       }
     };
   })
+  .service("mtvBtceTickers", function($http, $timeout) {
+    var cache = {};
+
+    function connectTicker (pair) {
+      function getTicker() {
+        $http.get("/btce_api2/"+pair+"/ticker")
+          .success(function (data) {
+            if(data && !angular.equals(cache[pair], data.ticker)) {
+              cache[pair] = data.ticker;
+            }
+
+            $timeout(getTicker, 1000);
+          });
+      }
+      getTicker();
+    }
+    return {
+      getTicker: function(pair) {
+        if(!pair) {
+          return;
+        }
+
+        if(!cache[pair]) {
+          cache[pair] = {};
+          connectTicker(pair);
+        }
+
+        return cache[pair];
+      }
+    }
+  })
   .service("mtvBtceTrades", function($http, $timeout) {
     var cache = {};
 
