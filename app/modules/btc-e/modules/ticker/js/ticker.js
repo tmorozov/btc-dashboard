@@ -52,13 +52,6 @@ angular.module('mtvBtcE.Ticker', ['mtvBtcE.data', 'mtvActiveTable'])
             return ticker[colKey];
           }
         };
-        mtvBtceTickers;
-
-        // scope.$watch("pair.value", function(newVal){
-        //   if(newVal) {
-        //     mtvBtceTickers.getTicker(newVal);
-        //   }
-        // });
 
         scope.serialize = function () {
           return {
@@ -73,10 +66,10 @@ angular.module('mtvBtcE.Ticker', ['mtvBtcE.data', 'mtvActiveTable'])
     }
 
   })
-
+  
   .directive("mtvDatasourceCellNumber", function(mtvMockDataService) {
     return {
-      template: '<div class="mtv-number-cell">{{data.getValue(rowKey, col.key) | number}}</div>',
+      template: '<div class="mtv-number-cell">{{data.getValue(ax1, col.key) | number}}</div>',
       replace: true
     };
   })
