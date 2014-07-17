@@ -1,0 +1,19 @@
+.depth {
+  width: 100%;
+  overflow: hidden;
+  border: none;
+}
+
+.depth-bids, .depth-asks {
+  border: none;
+  width: 48%;
+  float: right;
+  /*height: 100px;*/
+}
+
+.depth-bids {
+  float: left;
+}
+.depth-asks {
+  float: right;
+}

@@ -53,6 +53,37 @@ angular.module('mtvBtcE.data', [])
       }
     }
   })
+  .service("mtvBtceDepths", function($http, $timeout) {
+    var cache = {};
+
+    function connectDepth(pair) {    
+      function getDepth() {
+        $http.get("/btce_api3/depth/"+pair+"?limit=20")
+          .success(function(data) {
+            // ignore same data
+            if(data && !angular.equals(cache[pair], data[pair])) {
+              cache[pair] = data[pair];
+            }
+            $timeout(getDepth, 1000);
+          });
+      }
+
+      getDepth();
+    }
+
+    return {
+      getDepth: function(pair) {
+        if(!pair) {
+          return [];
+        }
+        if(!cache[pair]) {
+          cache[pair] = [];
+          connectDepth(pair);
+        }
+        return cache[pair];
+      }
+    }
+  })
   .service("mtvBtceTrades", function($http, $timeout) {
     var cache = {};
 

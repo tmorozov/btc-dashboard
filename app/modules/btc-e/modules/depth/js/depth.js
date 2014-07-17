@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
-  .directive("mtvDepthBtce", function(mtvBtceReference) {
+  .directive("mtvDepthBtce", function(mtvBtceReference, mtvBtceDepths) {
     return {
       scope: {},
       templateUrl: "modules/btc-e/modules/depth/templates/template-depth.html",
@@ -11,25 +11,17 @@ angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
         scope.pair;
         scope.meta = {
           columns: [{
-            type: "mtv-row-cell-timestamp",
-            name: "Date",
-            key: "date"
-          }, {
-            type: "mtv-row-cell-side",
-            name: "Type",
-            key: "trade_type"
-          }, {
             type: "mtv-row-cell-number",
             name: "Price",
-            key: "price"
+            key: 0
           }, {
             type: "mtv-row-cell-number",
             name: "Size",
-            key: "amount"
+            key: 1
           }]
         };
 
-        scope.dataSource = {};
+        scope.dataSource = mtvBtceDepths;
 
         scope.serialize = function () {
           return {
