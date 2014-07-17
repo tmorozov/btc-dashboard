@@ -21,7 +21,18 @@ angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
           }]
         };
 
-        scope.dataSource = mtvBtceDepths;
+        scope.dataSourceAsks = {
+          getRows: function() {
+            var rows = scope.pair && scope.pair.value ? mtvBtceDepths.getDepth(scope.pair.value).asks :[];
+            return rows;
+          }
+        }
+        scope.dataSourceBids = {
+          getRows: function() {
+            var rows = scope.pair && scope.pair.value ? mtvBtceDepths.getDepth(scope.pair.value).bids :[];
+            return rows;
+          }
+        }
 
         scope.serialize = function () {
           return {

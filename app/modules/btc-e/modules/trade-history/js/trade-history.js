@@ -29,7 +29,12 @@ angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
           }]
         };
 
-        scope.dataSource = mtvBtceTrades;
+        scope.dataSource = {
+          getRows: function() {
+            var rows = scope.pair && scope.pair.value ? mtvBtceTrades.getTrades(scope.pair.value) :[];
+            return rows;
+          }
+        }
 
         scope.serialize = function () {
           return {
