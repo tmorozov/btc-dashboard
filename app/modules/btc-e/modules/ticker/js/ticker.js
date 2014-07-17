@@ -6,7 +6,7 @@ angular.module('mtvBtcE.Ticker', ['mtvBtcE.data', 'mtvActiveTable'])
     return {
       scope: {},
       controller: "mtvActiveTableAddAxisCtrl",
-      templateUrl: "modules/btc-e/modules/ticker/templates/ticker.html",
+      templateUrl: "modules/btc-e/modules/ticker/templates/template-ticker.html",
       link: function(scope, element, attr) {
         scope.Reference = mtvBtceReference;
         scope.pair;
