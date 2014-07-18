@@ -1,0 +1,20 @@
+<div class="user">
+  <div ng-if="!user.isLoggedIn()" class="user_logon">
+    <div class="user_logon_email">
+      <span>Email</span>
+      <input type="text" ng-model="form.email">
+    </div>
+    <div class="user_logon_password">
+      <span>Password</span>
+      <input type="password" ng-model="form.password">
+    </div>
+    <button class="user_logon_submit" ng-click="user.login(form)">LogIn</button>
+  </div>
+  
+  <div ng-if="user.isLoggedIn()" class="user_info">
+    <span>{{user.name}}</span>
+    <button class="user_info_submit" ng-click="user.logout()">LogOut</button>  
+  </div>
+
+</div>
+

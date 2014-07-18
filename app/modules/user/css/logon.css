@@ -1,0 +1,11 @@
+.user {
+  color: #aaa;
+}
+
+.user_logon, .user_info {
+  overflow: hidden;  
+}
+
+.user_logon_email, .user_logon_password {
+  float: left;
+}
