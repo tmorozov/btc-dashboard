@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="modules/tiles/css/tiles.css">
 
     <link rel="stylesheet" href="modules/btc-e/modules/depth/css/depth.css">
-    
+
     <link rel="stylesheet" href="modules/user/css/logon.css">
 
 
@@ -41,6 +41,7 @@
     <script src="modules/btc-e/modules/trade-history/js/trade-history.js"></script>
     <script src="modules/btc-e/modules/ticker/js/ticker.js"></script>
     <script src="modules/btc-e/modules/depth/js/depth.js"></script>
+    <script src="modules/btc-e/modules/user-info/js/user-info.js"></script>
     <script src="modules/btc-e/js/btc-e.js"></script>
 
     <script src="modules/tabs-directive/js/tabs.js"></script>
@@ -84,9 +85,14 @@
 
       <pane data-title="Btc-e">
         <div class="gridster" mtv-gridster="btceGrid" >
-          <button ng-click="addWidget('ticker-btce', 7, 2)">Add Ticker</button>
-          <button ng-click="addWidget('trade-history-btce', 5, 2)">Add Trade History</button>
-          <button ng-click="addWidget('depth-btce', 4, 6)">Add Depth</button>
+          <div class="add-widgets">
+            <button ng-click="addWidget('ticker-btce', 7, 2)">Add Ticker</button>
+            <button ng-click="addWidget('trade-history-btce', 5, 2)">Add Trade History</button>
+            <button ng-click="addWidget('depth-btce', 4, 6)">Add Depth</button>            
+          </div>
+          <div class="add-widgets">
+            <button ng-click="addWidget('user-funds-btce', 3, 3)">Add Funds Info</button>
+          </div>
         </div>
       </pane>
 
