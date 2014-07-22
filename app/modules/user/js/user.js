@@ -26,6 +26,8 @@ angular.module('mtvUser', [])
 
         //TODO: we need other way to save keys!
         keys = {
+          pub: "V90V41LO-TOLI57WZ-YDU0XFNE-MVF5DM6G-VDZBS2CU",
+          priv: "515d1153f177f8948d986bbda981345fab30cafe74715fdb193befaa4eade6b6"
         };
       },
       // mock Logout

@@ -24,9 +24,11 @@ angular.module('mtvBtcE.AuthData', [])
       $http(config)
       .success(function(data) {
         console.log("responce", data);
-        if(data.success === 0 && data.error) {
+        if(data.success === 0 
+          && data.error 
+          && data.error.indexOf("you should send:") !== -1) {
           var newNonceStr = data.error.replace(/.*you should send:(.*)$/, '$1');
-          if(newNonceStr.length) {
+          if(newNonceStr && newNonceStr.length) {
             nonce = +newNonceStr;
           }
         }
@@ -92,30 +94,30 @@ angular.module('mtvBtcE.AuthData', [])
   .service("mtvBtceUserTransactions", function($http, $timeout, mtvBtceRequest) {
     var cache;
 
-    function connectFunds () {
-      function getFunds() {
+    function connectTransactions() {
+      function getTransactions() {
         var requestData = "method=TransHistory";
         var promise = mtvBtceRequest.request(requestData);
         promise
         .then(
           function(data) {
-            if(data.funds && !angular.equals(cache, data.funds) ) {
-              cache = data.funds;
+            if(data && !angular.equals(cache, data) ) {
+              cache = data;
             }
-            $timeout(getFunds, 5000);
+            $timeout(getTransactions, 5000);
           },
           function() {
-            $timeout(getFunds, 1000);
+            $timeout(getTransactions, 1000);
           }
         );
       }
-      getFunds();
+      getTransactions();
     }
     return {
-      getFunds: function() {
+      getTransactions: function() {
         if(!cache) {
           cache = {};
-          connectFunds();
+          connectTransactions();
         }
 
         return cache;
