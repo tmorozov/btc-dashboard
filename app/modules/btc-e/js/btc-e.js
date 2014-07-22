@@ -6,5 +6,6 @@ angular.module('mtvBtcE',
   'mtvBtcE.UserInfo',
   'mtvBtcE.UserTransactions',
   'mtvBtcE.UserTrades',
+  'mtvBtcE.UserOrders',
   'mtvBtcE.AuthData'])
 ;  
