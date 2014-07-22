@@ -1,0 +1,125 @@
+/*globals: angular, _*/
+'use strict';
+
+angular.module('mtvBtcE.AuthData', [])
+  .service("mtvBtceRequest", function ($http, $q, mtvUser) {
+    var nonce = 0;
+
+    function sendRequest(keys, params, deferred) {
+      var data = params+"&"+"nonce="+nonce;
+      nonce = nonce + 1;
+      var signedData = CryptoJS.HmacSHA512(data, keys.priv);
+
+      var config = {
+        method: 'POST', 
+        url: '/btce_tapi',
+        data: data,
+        headers: {
+          Key: keys.pub,
+          Sign: signedData,
+          "Content-Type": "application/x-www-form-urlencoded"
+        }
+      };
+
+      $http(config)
+      .success(function(data) {
+        console.log("responce", data);
+        if(data.success === 0 && data.error) {
+          var newNonceStr = data.error.replace(/.*you should send:(.*)$/, '$1');
+          if(newNonceStr.length) {
+            nonce = +newNonceStr;
+          }
+        }
+
+        if(data.success === 1 && data.return) {
+          deferred.resolve(data.return);
+        } else if(data.success === 0) {
+          deferred.reject(data.error);
+        }
+
+      })
+
+    }
+    return {
+      request: function(params) {
+        var deferred = $q.defer();
+        var keys = mtvUser.keys;
+
+        if(keys && keys.priv && keys.pub) {
+          sendRequest(keys, params, deferred);
+        } else {
+          deferred.reject("no keys");
+        }
+
+        return deferred.promise;
+      }
+    }
+
+  })
+  .service("mtvBtceUserFunds", function($http, $timeout, mtvBtceRequest) {
+    var cache;
+
+    function connectFunds () {
+      function getFunds() {
+        var requestData = "method=getInfo";
+        var promise = mtvBtceRequest.request(requestData);
+        promise
+        .then(
+          function(data) {
+            if(data.funds && !angular.equals(cache, data.funds) ) {
+              cache = data.funds;
+            }
+            $timeout(getFunds, 5000);
+          },
+          function() {
+            $timeout(getFunds, 1000);
+          }
+        );
+      }
+      getFunds();
+    }
+    return {
+      getFunds: function() {
+        if(!cache) {
+          cache = {};
+          connectFunds();
+        }
+
+        return cache;
+      }
+    }
+  })
+  .service("mtvBtceUserTransactions", function($http, $timeout, mtvBtceRequest) {
+    var cache;
+
+    function connectFunds () {
+      function getFunds() {
+        var requestData = "method=TransHistory";
+        var promise = mtvBtceRequest.request(requestData);
+        promise
+        .then(
+          function(data) {
+            if(data.funds && !angular.equals(cache, data.funds) ) {
+              cache = data.funds;
+            }
+            $timeout(getFunds, 5000);
+          },
+          function() {
+            $timeout(getFunds, 1000);
+          }
+        );
+      }
+      getFunds();
+    }
+    return {
+      getFunds: function() {
+        if(!cache) {
+          cache = {};
+          connectFunds();
+        }
+
+        return cache;
+      }
+    }
+  })  
+  ;

@@ -1,6 +1,9 @@
 <div class="user-funds">
   <div ng-if="user.isLoggedIn()" class="user-funds_funds">
     info about funds
+    <ul>
+      <li ng-repeat="(k,v) in fundProvider.getFunds()">{{k}}:{{v}}</li>
+    </ul>
   </div>
   <div ng-if="!user.isLoggedIn()" class="user-funds_funds">
     Please login!

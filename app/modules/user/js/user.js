@@ -5,10 +5,16 @@ angular.module('mtvUser', [])
   .service("mtvUser", function() {
     var userInfo = {
       isLoggedIn: false,
-    }
+    };
+    var keys;
     return {
       get name() {
         return userInfo.name;
+      },
+      get keys() {
+        if(this.isLoggedIn()) {
+          return keys;  
+        }
       },
       isLoggedIn: function () {
         return userInfo.isLoggedIn;
@@ -17,6 +23,10 @@ angular.module('mtvUser', [])
       login: function(loginInfo) {
         userInfo.isLoggedIn = true;
         userInfo.name = "Test User";
+
+        //TODO: we need other way to save keys!
+        keys = {
+        };
       },
       // mock Logout
       logout: function(login, password) {
