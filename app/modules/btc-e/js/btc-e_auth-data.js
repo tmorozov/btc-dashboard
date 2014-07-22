@@ -124,4 +124,37 @@ angular.module('mtvBtcE.AuthData', [])
       }
     }
   })  
+  .service("mtvBtceUserTrades", function($http, $timeout, mtvBtceRequest) {
+    var cache;
+
+    function connectTrades() {
+      function getTrades() {
+        var requestData = "method=TradeHistory";
+        var promise = mtvBtceRequest.request(requestData);
+        promise
+        .then(
+          function(data) {
+            if(data && !angular.equals(cache, data) ) {
+              cache = data;
+            }
+            $timeout(getTrades, 5000);
+          },
+          function() {
+            $timeout(getTrades, 1000);
+          }
+        );
+      }
+      getTrades();
+    }
+    return {
+      getTrades: function() {
+        if(!cache) {
+          cache = {};
+          connectTrades();
+        }
+
+        return cache;
+      }
+    }
+  })  
   ;

@@ -4,7 +4,7 @@
 angular.module('mtvBtcE.UserTransactions', ['mtvUser'])
   .directive("mtvUserTransactionsBtce", function(mtvUser, mtvBtceUserTransactions) {
     return {
-      templateUrl: "/modules/btc-e/modules/transactions/templates/template-transactions.html",
+      templateUrl: "/modules/btc-e/modules/user-transactions/templates/template-transactions.html",
       link: function(scope, element, attr) {
         scope.user = mtvUser;
         scope.transactionsProvider = mtvBtceUserTransactions;
