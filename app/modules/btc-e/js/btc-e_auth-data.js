@@ -5,7 +5,23 @@ angular.module('mtvBtcE.AuthData', [])
   .service("mtvBtceRequest", function ($http, $q, mtvUser) {
     var nonce = 0;
 
+    var requestQueue = [];
+    var inProgress = false;
+
+    function sendNextRequest(requestInfo) {
+      var deferred = requestInfo.deferred;
+      var params = requestInfo.params;
+
+      var keys = mtvUser.keys;
+      if(keys && keys.priv && keys.pub) {
+        sendRequest(keys, params, deferred);
+      } else {
+        deferred.reject("no keys");
+      }
+    }
+
     function sendRequest(keys, params, deferred) {
+      inProgress = true;
       var data = params+"&"+"nonce="+nonce;
       nonce = nonce + 1;
       var signedData = CryptoJS.HmacSHA512(data, keys.priv);
@@ -39,19 +55,37 @@ angular.module('mtvBtcE.AuthData', [])
           deferred.reject(data.error);
         }
 
-      })
+        inProgress = false;
+        trySendNext();
+      });
 
     }
+
+
+    function trySendNext() {
+      if(inProgress || requestQueue.length === 0) {
+        return;
+      }
+      var requestData = requestQueue.shift();
+      sendNextRequest(requestData);
+    }
+
     return {
       request: function(params) {
         var deferred = $q.defer();
-        var keys = mtvUser.keys;
+        var requestData = {
+          deferred: deferred,
+          params: params
+        };
+        requestQueue.push(requestData);
+        trySendNext();
+        // var keys = mtvUser.keys;
 
-        if(keys && keys.priv && keys.pub) {
-          sendRequest(keys, params, deferred);
-        } else {
-          deferred.reject("no keys");
-        }
+        // if(keys && keys.priv && keys.pub) {
+        //   sendRequest(keys, params, deferred);
+        // } else {
+        //   deferred.reject("no keys");
+        // }
 
         return deferred.promise;
       }
