@@ -17,6 +17,12 @@ angular.module('mtvActiveTable')
       replace: true
     };
   })
+  .directive("mtvRowCellString", function () {
+    return {
+      template: '<div class="mtv-number-cell">{{row[col.key]}}</div>',
+      replace: true
+    };
+  })  
   .directive("mtvRowCellSide", function () {
     return {
       template: '<div class="mtv-number-cell">{{row[col.key]}}</div>',

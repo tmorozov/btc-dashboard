@@ -94,6 +94,7 @@ angular.module('mtvBtcE.AuthData', [])
   })
   .service("mtvBtceUserFunds", function($http, $timeout, mtvBtceRequest) {
     var cache;
+    var parcedRows;
 
     function connectFunds () {
       function getFunds() {
@@ -104,6 +105,15 @@ angular.module('mtvBtcE.AuthData', [])
           function(data) {
             if(data.funds && !angular.equals(cache, data.funds) ) {
               cache = data.funds;
+
+              var rows = _.map(cache, function(val, key) {
+                return {
+                  instrument: key,
+                  volume: val
+                };
+              });              
+
+              parcedRows = rows;
             }
             $timeout(getFunds, 5000);
           },
@@ -118,10 +128,11 @@ angular.module('mtvBtcE.AuthData', [])
       getFunds: function() {
         if(!cache) {
           cache = {};
+          parcedRows= [];
           connectFunds();
         }
 
-        return cache;
+        return parcedRows;
       }
     }
   })
