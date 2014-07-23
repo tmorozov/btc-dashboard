@@ -39,7 +39,7 @@ angular.module('mtvBtcE.AuthData', [])
 
       $http(config)
       .success(function(data) {
-        console.log("responce", data);
+        //console.log("responce", data);
         if(data.success === 0 
           && data.error 
           && data.error.indexOf("you should send:") !== -1) {

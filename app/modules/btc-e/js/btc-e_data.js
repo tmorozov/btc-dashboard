@@ -29,7 +29,7 @@ angular.module('mtvBtcE.data', [])
       function getTicker() {
         $http.get("/btce_api2/"+pair+"/ticker")
           .success(function (data) {
-            if(data && !angular.equals(cache[pair], data.ticker)) {
+            if(data && !angular.equals(cache[pair].updated, data.ticker.updated)) {
               cache[pair] = data.ticker;
             }
 
