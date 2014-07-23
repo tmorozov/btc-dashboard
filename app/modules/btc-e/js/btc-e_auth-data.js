@@ -79,13 +79,6 @@ angular.module('mtvBtcE.AuthData', [])
         };
         requestQueue.push(requestData);
         trySendNext();
-        // var keys = mtvUser.keys;
-
-        // if(keys && keys.priv && keys.pub) {
-        //   sendRequest(keys, params, deferred);
-        // } else {
-        //   deferred.reject("no keys");
-        // }
 
         return deferred.promise;
       }
@@ -138,6 +131,7 @@ angular.module('mtvBtcE.AuthData', [])
   })
   .service("mtvBtceUserTransactions", function($http, $timeout, mtvBtceRequest) {
     var cache;
+    var parcedRows;
 
     function connectTransactions() {
       function getTransactions() {
@@ -148,6 +142,9 @@ angular.module('mtvBtcE.AuthData', [])
           function(data) {
             if(data && !angular.equals(cache, data) ) {
               cache = data;
+              parcedRows = _.map(cache, function(val, key) {
+                return _.extend(val, {transactionId: key});
+              })
             }
             $timeout(getTransactions, 5000);
           },
@@ -162,15 +159,17 @@ angular.module('mtvBtcE.AuthData', [])
       getTransactions: function() {
         if(!cache) {
           cache = {};
+          parcedRows= [];
           connectTransactions();
         }
 
-        return cache;
+        return parcedRows;
       }
     }
   })  
   .service("mtvBtceUserTrades", function($http, $timeout, mtvBtceRequest) {
     var cache;
+    var parcedRows;
 
     function connectTrades() {
       function getTrades() {
@@ -181,6 +180,9 @@ angular.module('mtvBtcE.AuthData', [])
           function(data) {
             if(data && !angular.equals(cache, data) ) {
               cache = data;
+              parcedRows = _.map(cache, function(val, key) {
+                return _.extend(val, {tradeId: key});
+              })              
             }
             $timeout(getTrades, 5000);
           },
@@ -195,15 +197,17 @@ angular.module('mtvBtcE.AuthData', [])
       getTrades: function() {
         if(!cache) {
           cache = {};
+          parcedRows = [];
           connectTrades();
         }
 
-        return cache;
+        return parcedRows;
       }
     }
   })
   .service("mtvBtceUserOrders", function($http, $timeout, mtvBtceRequest) {
     var cache;
+    var parcedRows;
 
     function connectOrders() {
       function getOrders() {
@@ -214,6 +218,9 @@ angular.module('mtvBtcE.AuthData', [])
           function(data) {
             if(data && !angular.equals(cache, data) ) {
               cache = data;
+              parcedRows = _.map(cache, function(val, key) {
+                return _.extend(val, {orderId: key});
+              });
             }
             $timeout(getOrders, 5000);
           },
@@ -228,10 +235,11 @@ angular.module('mtvBtcE.AuthData', [])
       getOrders: function() {
         if(!cache) {
           cache = {};
+          parcedRows = [];
           connectOrders();
         }
 
-        return cache;
+        return parcedRows;
       }
     }
   })

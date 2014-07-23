@@ -1,22 +1,7 @@
 <div class="user-funds">
   <div ng-if="user.isLoggedIn()" class="user-funds_funds">
-    info about transactions
-    <table>
-      <thead>
-        <tr>
-          <td>id</td>
-          <td ng-repeat="meta in ordersMeta">{{meta}}</td>
-        </tr>  
-      </thead>
-
-      <tbody>
-        <tr ng-repeat="(id, T) in ordersProvider.getOrders()">
-          <td>{{id}}</td>
-          <td ng-repeat="meta in ordersMeta">{{T[meta]}}</td>
-        </tr>
-      </tbody>
-      
-    </table>
+    info about orders
+    <div mtv-data-source-table meta="meta" data="dataSourceOrders"></div>
   </div>
   <div ng-if="!user.isLoggedIn()" class="user-funds_funds">
     Please login!

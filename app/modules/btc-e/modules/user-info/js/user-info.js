@@ -4,10 +4,10 @@
 angular.module('mtvBtcE.UserInfo', ['mtvUser', 'mtvActiveTable'])
   .directive("mtvUserFundsBtce", function(mtvUser, mtvBtceUserFunds) {
     return {
+      scope: true,
       templateUrl: "/modules/btc-e/modules/user-info/templates/template-user-funds.html",
       link: function(scope, element, attr) {
         scope.user = mtvUser;
-        scope.fundProvider = mtvBtceUserFunds;
 
         scope.meta = {
           columns: [{
