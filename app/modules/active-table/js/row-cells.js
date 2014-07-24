@@ -13,7 +13,7 @@ angular.module('mtvActiveTable')
   })
   .directive("mtvRowCellTimestamp", function () {
     return {
-      template: '<div class="mtv-number-cell">{{row[col.key] | date : "MMM d HH:mm:ss"}}</div>',
+      template: '<div class="mtv-number-cell">{{row[col.key]*1000 | date:"MMM d HH:mm:ss"}}</div>',
       replace: true
     };
   })
