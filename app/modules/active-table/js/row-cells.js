@@ -29,6 +29,12 @@ angular.module('mtvActiveTable')
       replace: true
     };
   })
+  .directive("mtvRowCellPrice", function () {
+    return {
+      template: '<div class="mtv-number-cell">{{row[col.key].toFixed(formatter.price)}}</div>',
+      replace: true
+    };
+  })
   .directive("mtvRowCellNumber", function () {
     return {
       template: '<div class="mtv-number-cell">{{row[col.key] | number}}</div>',

@@ -11,7 +11,7 @@ angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
         scope.pair;
         scope.meta = {
           columns: [{
-            type: "mtv-row-cell-number",
+            type: "mtv-row-cell-price",
             name: "Price",
             key: 0
           }, {
@@ -21,15 +21,22 @@ angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
           }]
         };
 
+        scope.formatter = {
+          get price() {
+            var meta = mtvBtceReference.getMeta(scope.pair);
+            return meta ? meta.decimal_places : 3;
+          }
+        };
+
         scope.dataSourceAsks = {
           getRows: function() {
-            var rows = scope.pair && scope.pair.value ? mtvBtceDepths.getDepth(scope.pair.value).asks :[];
+            var rows = scope.pair ? mtvBtceDepths.getDepth(scope.pair).asks :[];
             return rows;
           }
         }
         scope.dataSourceBids = {
           getRows: function() {
-            var rows = scope.pair && scope.pair.value ? mtvBtceDepths.getDepth(scope.pair.value).bids :[];
+            var rows = scope.pair ? mtvBtceDepths.getDepth(scope.pair).bids :[];
             return rows;
           }
         }

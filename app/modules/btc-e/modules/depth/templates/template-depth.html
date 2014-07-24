@@ -3,7 +3,7 @@
     <span>{{name}}</span>
     
     <span mtv-typeahead 
-      data-value="pair.value"
+      data-value="pair"
       data-suggestions="Reference.pairs" 
       data-placeholder="Enter pair" >
     </span>
@@ -13,11 +13,11 @@
   <div class="depth">
     <div class="depth-bids">
       <div>Bids</div>
-      <div mtv-data-source-table meta="meta" data="dataSourceBids"></div>
+      <div mtv-data-source-table meta="meta" data="dataSourceBids" formatter="formatter"></div>
     </div>
     <div class="depth-asks">
       <div>Asks</div>      
-      <div mtv-data-source-table meta="meta" data="dataSourceAsks"></div>
+      <div mtv-data-source-table meta="meta" data="dataSourceAsks" formatter="formatter"></div>
     </div>
   </div>
 

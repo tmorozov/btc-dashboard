@@ -7,7 +7,8 @@ angular.module('mtvActiveTable')
       templateUrl: "modules/active-table/templates/template-data-source-table.html",
       scope: {
         meta: '=',
-        data: '='
+        data: '=',
+        formatter: '='
       }
     };
   })  

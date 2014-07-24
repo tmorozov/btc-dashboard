@@ -19,7 +19,7 @@ angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
             name: "Type",
             key: "trade_type"
           }, {
-            type: "mtv-row-cell-number",
+            type: "mtv-row-cell-price",
             name: "Price",
             key: "price"
           }, {
@@ -29,9 +29,16 @@ angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
           }]
         };
 
+        scope.formatter = {
+          get price() {
+            var meta = mtvBtceReference.getMeta(scope.pair);
+            return meta ? meta.decimal_places : 3;
+          }
+        };
+
         scope.dataSource = {
           getRows: function() {
-            var rows = scope.pair && scope.pair.value ? mtvBtceTrades.getTrades(scope.pair.value) :[];
+            var rows = scope.pair ? mtvBtceTrades.getTrades(scope.pair) :[];
             return rows;
           }
         }
