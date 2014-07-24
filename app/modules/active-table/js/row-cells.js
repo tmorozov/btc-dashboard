@@ -31,7 +31,7 @@ angular.module('mtvActiveTable')
   })
   .directive("mtvRowCellPrice", function () {
     return {
-      template: '<div class="mtv-number-cell">{{row[col.key].toFixed(formatter.price)}}</div>',
+      template: '<div class="mtv-number-cell">{{row[col.key].toFixed(formatter.price(row))}}</div>',
       replace: true
     };
   })

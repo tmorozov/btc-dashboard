@@ -30,7 +30,7 @@ angular.module('mtvBtcE.TradeHistory', ['mtvBtcE.data', 'mtvActiveTable'])
         };
 
         scope.formatter = {
-          get price() {
+          price: function() {
             var meta = mtvBtceReference.getMeta(scope.pair);
             return meta ? meta.decimal_places : 3;
           }
