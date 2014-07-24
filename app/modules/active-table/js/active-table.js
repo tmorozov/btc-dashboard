@@ -24,7 +24,8 @@ angular.module('mtvActiveTable', [])
       templateUrl: "modules/active-table/templates/template-one-axis-pivot.html",
       scope: {
         query: '=',
-        data: '='
+        data: '=',
+        formatter: '='
       }
     };
   })  

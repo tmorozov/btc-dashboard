@@ -19,6 +19,9 @@ angular.module('mtvBtcE.data', [])
     return {
       get pairs() {
         return pairs;
+      },
+      getMeta: function (pair) {
+        return info.pairs[pair];
       }
     };
   })
