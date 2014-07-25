@@ -9,7 +9,8 @@
   <tbody class="at-body">
     <tr class="at-row" ng-repeat="row in data.getRows()">
       <td ng-repeat="col in meta.columns"
-        mtv-row-cell="{{col.type}}"></td>
+        mtv-row-cell="{{col.type}}"
+        ng-click="handler.click(row, col)"></td>
     </tr>
 
   </tbody>

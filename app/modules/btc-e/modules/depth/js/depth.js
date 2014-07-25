@@ -41,6 +41,11 @@ angular.module('mtvBtcE.Depth', ['mtvBtcE.data', 'mtvActiveTable'])
           }
         }
 
+        scope.handler = {
+          click: function(row, col) {
+            console.log(row, col);
+          }
+        }
         scope.serialize = function () {
           return {
             type: "depth-btce",

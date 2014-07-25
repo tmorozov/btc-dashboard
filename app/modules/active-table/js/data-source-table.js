@@ -8,7 +8,8 @@ angular.module('mtvActiveTable')
       scope: {
         meta: '=',
         data: '=',
-        formatter: '='
+        formatter: '=',
+        handler: '='
       }
     };
   })  
